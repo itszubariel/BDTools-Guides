@@ -1,0 +1,33 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/http", "destination": "/http/web/index.html" },
+    { "source": "/http/:file", "destination": "/http/web/:file" },
+    {
+      "source": "/http/:category/:page",
+      "destination": "/http/web/:category/:page"
+    },
+
+    { "source": "/compv2", "destination": "/compv2/web/index.html" },
+    { "source": "/compv2/:file", "destination": "/compv2/web/:file" },
+    {
+      "source": "/compv2/:category/:page",
+      "destination": "/compv2/web/:category/:page"
+    },
+
+    { "source": "/textsplit", "destination": "/textsplit/web/index.html" },
+    { "source": "/textsplit/:file", "destination": "/textsplit/web/:file" },
+    {
+      "source": "/textsplit/:category/:page",
+      "destination": "/textsplit/web/:category/:page"
+    },
+
+    { "source": "/json", "destination": "/json/web/index.html" },
+    { "source": "/json/:file", "destination": "/json/web/:file" },
+    {
+      "source": "/json/:category/:page",
+      "destination": "/json/web/:category/:page"
+    }
+  ]
+}
