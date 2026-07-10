@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>writing - BDFD Text Splitting Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../index.html"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>Writing to a TextSplit Variable</h2>
+        <p>
+          Reading slots is only half the picture. When a command needs to change
+          a value, you edit the slot with <code>$editSplitText</code>, then save
+          the whole variable back to storage with <code>$setVar</code> using
+          <code>$joinSplitText</code> to reassemble it.
+        </p>
+        <h3>The pattern</h3>
+        <p>Every write follows this three-step structure:</p>
+        <pre><code>$textSplit[$getVar[VARIABLE;$authorID];.]
+$editSplitText[Index;NewValue]
+$setVar[VARIABLE;$joinSplitText[.];$authorID]</code></pre>
+        <ol>
+          <li>Split the variable to load it into memory.</li>
+          <li>Edit the slot you want to change.</li>
+          <li>
+            Save it back: <code>$joinSplitText[.]</code> reassembles all slots
+            with <code>.</code> and <code>$setVar</code> writes it to storage.
+          </li>
+        </ol>
+
+        <p>
+          The separator inside <code>$joinSplitText</code> must match the
+          separator you used in <code>$textSplit</code>. Using a different one
+          will corrupt the variable.
+        </p>
+        <h3>Editing multiple slots at once</h3>
+        <p>
+          You can call <code>$editSplitText</code> multiple times before saving.
+          Only one <code>$setVar</code> is needed at the end:
+        </p>
+        <pre><code>$textSplit[$getVar[VARIABLE;$authorID];.]
+$editSplitText[1;NewMoneyValue]
+$editSplitText[2;NewBankValue]
+$setVar[VARIABLE;$joinSplitText[.];$authorID]</code></pre>
+        <h3>Example 1: Add money to a user's balance</h3>
+        <pre><code>$nomention
+$textSplit[$getVar[ECONOMY;$authorID];.]
+$editSplitText[1;$sum[$splitText[1];100]]
+$setVar[ECONOMY;$joinSplitText[.];$authorID]
+You received 100 coins. Balance: $splitText[1]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$textSplit</code> loads and splits the variable.</li>
+          <li>
+            <code>$editSplitText[1;...]</code> sets slot 1 (money) to current
+            money plus 100.
+          </li>
+          <li><code>$setVar</code> saves the updated variable back.</li>
+          <li>
+            <code>$splitText[1]</code> still refers to the updated value in
+            memory for the output line.
+          </li>
+        </ol>
+
+        <h3>Example 2: Move money from balance to bank (deposit)</h3>
+        <pre><code>$nomention
+$textSplit[$getVar[ECONOMY;$authorID];.]
+$onlyIf[$message>0;Amount must be greater than 0.]
+$onlyIf[$message<=$splitText[1];You do not have that much money.]
+$onlyIf[$sum[$splitText[2];$message]<=$splitText[3];That would exceed your bank limit.]
+$editSplitText[1;$sub[$splitText[1];$message]]
+$editSplitText[2;$sum[$splitText[2];$message]]
+$setVar[ECONOMY;$joinSplitText[.];$authorID]
+Deposited $message coins into the bank.</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$textSplit</code> loads the variable.</li>
+          <li>
+            Three <code>$onlyIf</code> checks validate the input. The third one
+            is the important one: <code>$sum[$splitText[2];$message]</code> adds
+            the current bank balance to the deposit amount and checks the total
+            does not exceed the bank limit (slot 3). Without this, a user could
+            deposit more than the limit allows.
+          </li>
+          <li>
+            <code>$editSplitText[1;...]</code> subtracts the amount from money
+            (slot 1).
+          </li>
+          <li>
+            <code>$editSplitText[2;...]</code> adds the amount to bank (slot 2).
+          </li>
+          <li>One <code>$setVar</code> saves both changes at once.</li>
+        </ol>
+
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Any command that changes a value</strong>: coins, bank, xp,
+            level, inventory counts
+          </li>
+          <li>
+            <strong>Initialising slots</strong>: check if a slot is
+            <code>0</code> and set a proper default before the command runs
+          </li>
+          <li>
+            <strong>Chained edits</strong>: update several slots in one command
+            with a single save at the end
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./setup.html">Setting up</a>: how to design and create the
+            variable
+          </li>
+          <li>
+            <a href="./reading.html">Reading values</a>: how to read slots
+            before editing them
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
