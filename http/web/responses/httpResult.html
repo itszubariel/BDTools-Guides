@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>httpResult - BDFD HTTP Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../index.html" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$httpResult</h2>
+<code>$httpResult</code> retrieves the data returned by your last HTTP request. You call this right after <code>$httpGet</code>, <code>$httpPost</code>, or any other HTTP function to actually <strong>see</strong> or <strong>use</strong> what the API sent back.
+<h3>Syntax</h3>
+<code>$httpResult</code> has two forms.
+<strong>Form 1: get everything as plain text</strong>
+<pre><code>$httpResult</code></pre>
+<p>Returns the entire response as raw text. Use this when the API returns a simple string or when you just want to see the full response.</p>
+<strong>Form 2: extract a specific value from JSON</strong>
+<pre><code>$httpResult[key;...]</code></pre>
+<ul>
+<li><code>key</code>: one or more keys that point to the value you want. Each key navigates one level deeper into the JSON.</li>
+</ul>
+
+<p>Use this when the API returns JSON and you only need one piece of it.</p>
+<h3>Form 1: Getting everything</h3>
+<p>The simplest way to use <code>$httpResult</code> is with <strong>no arguments</strong>. This returns the entire response.</p>
+<h4>Example</h4>
+<pre><code>$httpGet[https://api.example.com/user]
+$httpResult</code></pre>
+<p>If the API returns:</p>
+<pre><code>{"name":"Cenzo","role":"admin","age":25}</code></pre>
+<p>Then <code>$httpResult</code> would output:</p>
+<pre><code>{"name":"Cenzo","role":"admin","age":25}</code></pre>
+<p>That is useful for testing, but most of the time you only want one value, like the <code>name</code>.</p>
+<h3>Form 2: Extracting from JSON</h3>
+<p>When an API returns JSON, you can drill down to the exact value you need using <code>$httpResult[Key1;Key2;...]</code>.</p>
+<h4>Understanding JSON structure</h4>
+<p>JSON is made of three things:</p>
+<ul>
+<li><strong>Objects</strong>: wrapped in <code>{}</code>, contain keys and values.</li>
+<li><strong>Arrays</strong>: wrapped in <code>[]</code>, contain items you access by index number.</li>
+<li><strong>Values</strong>: strings, numbers, booleans, or null.</li>
+</ul>
+
+<p>To extract a value, you follow the path from the top level down to the value you want.</p>
+<h4>Example 1: Simple object</h4>
+<p>The API at <code>https://api.example.com/user</code> returns this JSON:</p>
+<pre><code>{
+  "name": "Cenzo",
+  "role": "admin",
+  "age": 25
+}</code></pre>
+<p>To get the <code>name</code>:</p>
+<pre><code>$httpResult[name]</code></pre>
+<p>The path is:</p>
+<pre><code>$httpResult
+     |
+    name
+     |
+  "Cenzo"</code></pre>
+<p>To get the <code>role</code>:</p>
+<pre><code>$httpResult[role]</code></pre>
+<p>The path is:</p>
+<pre><code>$httpResult
+     |
+    role
+     |
+  "admin"</code></pre>
+<h4>Example 2: Nested object</h4>
+<p>The API at <code>https://api.example.com/user/profile</code> returns this JSON:</p>
+<pre><code>{
+  "user": {
+    "name": "Cenzo",
+    "details": {
+      "role": "admin",
+      "age": 25
+    }
+  }
+}</code></pre>
+<p>To get the <code>role</code> inside <code>details</code> inside <code>user</code>:</p>
+<pre><code>$httpResult[user;details;role]</code></pre>
+<p>The path is:</p>
+<pre><code>$httpResult
+     |
+    user
+     |
+   details
+     |
+    role
+     |
+  "admin"</code></pre>
+<p>Each semicolon moves one level deeper.</p>
+<h4>Example 3: Array with an object</h4>
+<p>The API at <code>https://api.example.com/search</code> returns this JSON:</p>
+<pre><code>{
+  "results": [
+    {
+      "url": "https://example.com/image.png",
+      "name": "Cenzo"
+    }
+  ]
+}</code></pre>
+<p>To get the <code>url</code> from the first item in the <code>results</code> array:</p>
+<pre><code>$httpResult[results;0;url]</code></pre>
+<ul>
+<li><code>results</code>: go into the <code>results</code> key (which is an array).</li>
+<li><code>0</code>: take the first item in the array (index 0).</li>
+<li><code>url</code>: get the <code>url</code> key from that item.</li>
+</ul>
+
+<p>The path looks like this:</p>
+<pre><code>$httpResult
+     |
+   results  (this is an array)
+     |
+      ↓
+   [ 0 ]    (first item in the array)
+     |
+    url
+     |
+  "https://example.com/image.png"</code></pre>
+<h4>Example 4: Array with multiple items</h4>
+<p>The API at <code>https://api.example.com/items</code> returns this JSON:</p>
+<pre><code>{
+  "results": [
+    {"name": "Cenzo",  "url": "https://example.com/001.png"},
+    {"name": "Zub",   "url": "https://example.com/002.png"},
+    {"name": "Uncle",  "url": "https://example.com/003.png"}
+  ]
+}</code></pre>
+<p>To get the <code>name</code> of the second item:</p>
+<pre><code>$httpResult[results;1;name]</code></pre>
+<ul>
+<li><code>results</code>: go into the <code>results</code> array.</li>
+<li><code>1</code>: take the second item (index 1).</li>
+<li><code>name</code>: get the <code>name</code> key.</li>
+</ul>
+
+<p>The path:</p>
+<pre><code>$httpResult
+     |
+   results
+     |
+   [ 1 ]    (second item: {"name": "Zub", "url": "..."})
+     |
+    name
+     |
+   "Zub"</code></pre>
+<p>Array indexes always start at <code>0</code>. So <code>0</code> is the first item, <code>1</code> is the second, <code>2</code> is the third, and so on.</p>
+<h4>Example 5: Deeply nested data</h4>
+<p>The API at <code>https://api.example.com/posts</code> returns this JSON:</p>
+<pre><code>{
+  "data": {
+    "posts": [
+      {
+        "id": 1,
+        "content": "Hello",
+        "author": {
+          "username": "Cenzo",
+          "avatar": "https://example.com/avatar.png"
+        }
+      },
+      {
+        "id": 2,
+        "content": "World",
+        "author": {
+          "username": "Zub",
+          "avatar": "https://example.com/avatar2.png"
+        }
+      }
+    ]
+  }
+}</code></pre>
+<p>To get the avatar of the first post's author:</p>
+<pre><code>$httpResult[data;posts;0;author;avatar]</code></pre>
+<p>The path:</p>
+<pre><code>$httpResult
+     |
+    data
+     |
+   posts
+     |
+   [ 0 ]       (first post)
+     |
+   author
+     |
+   avatar
+     |
+  "https://example.com/avatar.png"</code></pre>
+<p>To get the content of the second post:</p>
+<pre><code>$httpResult[data;posts;1;content]</code></pre>
+<p>The path:</p>
+<pre><code>$httpResult
+     |
+    data
+     |
+   posts
+     |
+      ↓
+   [ 1 ]       (second post)
+     |
+   content
+     |
+   "World"</code></pre>
+<h3>Summary</h3>
+<ul>
+<li>Use <code>$httpResult</code> alone to see the full response.</li>
+<li>Use <code>$httpResult[key1;key2;...]</code> to extract a specific value.</li>
+<li>Object keys are used as-is: <code>user</code>, <code>name</code>, <code>url</code>.</li>
+<li>Array items are accessed by index, starting at <code>0</code>.</li>
+<li>Separate each step with a semicolon.</li>
+<li>Each semicolon goes one level deeper into the JSON.</li>
+</ul>
+
+<h3>Common uses</h3>
+<ul>
+<li><strong>Displaying a single value</strong> from an API response (like a quote, username, or score)</li>
+<li><strong>Extracting data from nested JSON</strong> when the API returns complex structures</li>
+<li><strong>Getting specific items from arrays</strong> (like the first result or the top player)</li>
+<li><strong>Using parts of the response</strong> in embeds, messages, or variables</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="httpStatus.html">$httpStatus</a>: to check if the request worked before reading the result</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>
