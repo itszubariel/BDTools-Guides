@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>jsonExists - BDFD JSON Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../index.html"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>$jsonExists</h2>
+        <code>$jsonExists</code> checks if a key exists in the current JSON
+        object. Returns <code>true</code> if it does, <code>false</code> if it
+        does not.
+        <h3>Syntax</h3>
+        <pre><code>$jsonExists[Key;...]</code></pre>
+        <ul>
+          <li><code>Key</code>: one or more keys forming the path to check.</li>
+        </ul>
+
+        <p>
+          Returns empty if no <code>$jsonParse</code> or
+          <code>$jsonSet</code> was called, or <code>$jsonClear</code> was
+          called.
+        </p>
+        <h3>What happens</h3>
+        <ol>
+          <li><code>$jsonParse</code> loads the JSON object into memory.</li>
+          <li>
+            <code>$jsonExists</code> checks whether the key at the given path
+            exists.
+          </li>
+          <li>Returns <code>true</code> or <code>false</code>.</li>
+        </ol>
+
+        <h3>Example 1: Check a key</h3>
+        <pre><code>$nomention
+$jsonParse[{"username":"Zubariel"}]
+$jsonExists[username]
+$jsonExists[tag]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$jsonParse</code> loads the object which has
+            <code>username</code> but no <code>tag</code>.
+          </li>
+          <li><code>$jsonExists[username]</code> returns <code>true</code>.</li>
+          <li><code>$jsonExists[tag]</code> returns <code>false</code>.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>true
+false</code></pre>
+        <h3>Example 2: Use inside a condition</h3>
+        <pre><code>$nomention
+$jsonParse[{"role":"admin"}]
+$if[$jsonExists[role]==true]
+Role: $json[role]
+$else
+No role set.
+$endif</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$jsonParse</code> loads the object.</li>
+          <li>
+            <code>$jsonExists[role]</code> returns <code>true</code>, so the
+            <code>$if</code> block runs.
+          </li>
+          <li><code>$json[role]</code> returns <code>admin</code>.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>Role: admin</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Validating before reading</strong>: confirm a key exists
+            before calling <code>$json</code> on it
+          </li>
+          <li>
+            <strong>Conditional logic</strong>: branch behaviour based on
+            whether a field is present
+          </li>
+          <li>
+            <strong>Array checks</strong>: verify a nested key exists before
+            appending to it
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./json.html">$json</a>: to read the value once confirmed it
+            exists
+          </li>
+          <li>
+            <a href="./jsonUnset.html">$jsonUnset</a>: to remove a key after
+            checking it exists
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

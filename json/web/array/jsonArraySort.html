@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>jsonArraySort - BDFD JSON Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../index.html"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>$jsonArraySort</h2>
+        <code>$jsonArraySort</code> sorts a JSON array in ascending order.
+        Numbers are sorted from lowest to highest. Strings are sorted by their
+        ASCII/Unicode values, with uppercase letters coming before lowercase.
+        <h3>Syntax</h3>
+        <pre><code>$jsonArraySort[Key;...]</code></pre>
+        <ul>
+          <li>
+            <code>Key</code>: one or more keys forming the path to the array.
+          </li>
+        </ul>
+
+        <h3>What happens</h3>
+        <ol>
+          <li><code>$jsonParse</code> loads the JSON object.</li>
+          <li>
+            <code>$jsonArraySort</code> sorts the array at the given key path in
+            ascending order.
+          </li>
+          <li>
+            Nothing is returned. Use <code>$json</code> or
+            <code>$jsonJoinArray</code> to see the sorted result.
+          </li>
+        </ol>
+
+        <h3>Example 1: Sort a number array</h3>
+        <pre><code>$nomention
+$jsonParse[{"scores":[50,10,90,30,70\]}]
+$jsonArraySort[scores]
+$jsonJoinArray[scores;, ]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$jsonParse</code> loads the object.</li>
+          <li>
+            <code>$jsonArraySort[scores]</code> sorts the numbers ascending.
+          </li>
+          <li><code>$jsonJoinArray</code> displays the result.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>10, 30, 50, 70, 90</code></pre>
+        <h3>Example 2: Sort a mixed array</h3>
+        <pre><code>$nomention
+$jsonParse[{"data":["banana",10,"apple",2,"Apples",30\]}]
+$jsonArraySort[data]
+$jsonJoinArray[data;, ]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$jsonParse</code> loads the object.</li>
+          <li>
+            <code>$jsonArraySort[data]</code> sorts it: numbers first, then
+            strings by ASCII value (<code>Apples</code> before
+            <code>apple</code> before <code>banana</code>).
+          </li>
+          <li><code>$jsonJoinArray</code> displays the result.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>2, 10, 30, Apples, apple, banana</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Leaderboards</strong>: sort score arrays before displaying
+          </li>
+          <li>
+            <strong>Alphabetical lists</strong>: sort string arrays like names
+            or items
+          </li>
+          <li>
+            <strong>Normalising data</strong>: sort before searching or
+            comparing
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./jsonArrayReverse.html">$jsonArrayReverse</a>: to reverse
+            after sorting for descending order
+          </li>
+          <li>
+            <a href="./jsonJoinArray.html">$jsonJoinArray</a>: to display the
+            sorted array as a string
+          </li>
+          <li>
+            <a href="./jsonArrayCount.html">$jsonArrayCount</a>: to check how
+            many elements are in the array
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>
