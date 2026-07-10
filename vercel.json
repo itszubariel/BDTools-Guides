@@ -1,33 +1,21 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/http", "destination": "/http/web/index.html" },
-    { "source": "/http/:file", "destination": "/http/web/:file" },
-    {
-      "source": "/http/:category/:page",
-      "destination": "/http/web/:category/:page"
-    },
+  "routes": [
+    { "src": "/http", "dest": "/http/web/index.html" },
+    { "src": "/http/([^/]+\\.[^/]+)", "dest": "/http/web/$1" },
+    { "src": "/http/([^/]+)/([^/]+)", "dest": "/http/web/$1/$2" },
 
-    { "source": "/compv2", "destination": "/compv2/web/index.html" },
-    { "source": "/compv2/:file", "destination": "/compv2/web/:file" },
-    {
-      "source": "/compv2/:category/:page",
-      "destination": "/compv2/web/:category/:page"
-    },
+    { "src": "/compv2", "dest": "/compv2/web/index.html" },
+    { "src": "/compv2/([^/]+\\.[^/]+)", "dest": "/compv2/web/$1" },
+    { "src": "/compv2/([^/]+)/([^/]+)", "dest": "/compv2/web/$1/$2" },
 
-    { "source": "/textsplit", "destination": "/textsplit/web/index.html" },
-    { "source": "/textsplit/:file", "destination": "/textsplit/web/:file" },
-    {
-      "source": "/textsplit/:category/:page",
-      "destination": "/textsplit/web/:category/:page"
-    },
+    { "src": "/textsplit", "dest": "/textsplit/web/index.html" },
+    { "src": "/textsplit/([^/]+\\.[^/]+)", "dest": "/textsplit/web/$1" },
+    { "src": "/textsplit/([^/]+)/([^/]+)", "dest": "/textsplit/web/$1/$2" },
 
-    { "source": "/json", "destination": "/json/web/index.html" },
-    { "source": "/json/:file", "destination": "/json/web/:file" },
-    {
-      "source": "/json/:category/:page",
-      "destination": "/json/web/:category/:page"
-    }
+    { "src": "/json", "dest": "/json/web/index.html" },
+    { "src": "/json/([^/]+\\.[^/]+)", "dest": "/json/web/$1" },
+    { "src": "/json/([^/]+)/([^/]+)", "dest": "/json/web/$1/$2" }
   ]
 }
