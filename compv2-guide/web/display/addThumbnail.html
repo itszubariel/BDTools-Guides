@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>$addThumbnail - BDFD Components V2 Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$addThumbnail</h2>
+<code>$addThumbnail</code> adds a <strong>thumbnail</strong> image to a section. Thumbnails appear beside the section's text as an accessory.
+<h3>Syntax</h3>
+<pre><code>$addThumbnail[Image URL;Image description;Spoiler;Section ID]</code></pre>
+<ul>
+<li><code>Image URL</code>: the URL of the image to display.</li>
+<li><code>Image description</code>: alt text for the image. Can be left empty.</li>
+<li><code>Spoiler</code>: whether to mark the thumbnail as a spoiler. Leave empty for no spoiler.</li>
+<li><code>Section ID</code>: ID of the section to attach this thumbnail to.</li>
+</ul>
+
+<h3>What happens</h3>
+<ol>
+<li><code>$addThumbnail</code> adds an image to the specified section.</li>
+<li>The image appears beside the section's text.</li>
+<li>If spoiler is set, the image is hidden behind a spoiler overlay.</li>
+</ol>
+
+<h3>Example 1: Basic thumbnail</h3>
+<pre><code>$addSection[info]
+$addTextDisplay[Check out the image below;info]
+$addThumbnail[https://example.com/image.png;Example image;;info]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addThumnail-1.png" alt="Basic thumbnail example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addSection</code> creates a section.</li>
+<li><code>$addTextDisplay</code> adds text to the section.</li>
+<li><code>$addThumbnail</code> adds an image to the section as its accessory.</li>
+</ol>
+
+<p>The section shows the text with the image beside it.</p>
+<h3>Example 2: Spoiler thumbnail</h3>
+<pre><code>$addSection[info]
+$addTextDisplay[Spoiler image below;info]
+$addThumbnail[https://example.com/spoiler.png;Hidden image;true;info]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addThumnail-2.png" alt="Spoiler thumbnail example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addSection</code> creates a section.</li>
+<li><code>$addTextDisplay</code> adds text to the section.</li>
+<li><code>$addThumbnail</code> adds a spoiler image to the section.</li>
+</ol>
+
+<p>The image is hidden behind a spoiler overlay until the user clicks it.</p>
+<h3>Common uses</h3>
+<ul>
+<li><strong>Adding images</strong> to sections for visual context</li>
+<li><strong>Showing previews</strong> of linked content</li>
+<li><strong>Hiding sensitive images</strong> behind a spoiler</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="../parents/addSection">$addSection</a>: to create the section that holds the thumbnail</li>
+<li><a href="../parents/addContainer">$addContainer</a>: to create a container for the section</li>
+<li><a href="addTextDisplay">$addTextDisplay</a>: to add text to the section</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

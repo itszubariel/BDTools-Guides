@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>$httpPut - BDFD HTTP Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$httpPut</h2>
+<code>$httpPut</code> sends a <strong>PUT request</strong> to an API. Use this when you need to <strong>replace</strong> an existing resource with new data. PUT is commonly used to update records like users, settings, or items.
+<h3>Syntax</h3>
+<pre><code>$httpPut[Url;(Body)]</code></pre>
+<ul>
+<li><code>Url</code>: the web address of the API you are sending data to.</li>
+<li><code>(Body)</code>: the data you want to send (usually JSON). This is <strong>optional</strong>, but most APIs expect at least <code>{}</code> if they require a body. Leave it fully empty only if the API explicitly accepts a bodyless request.</li>
+</ul>
+
+<h3>What happens</h3>
+<ol>
+<li><code>$httpPut</code> sends your data to the URL.</li>
+<li>The API finds the resource and replaces it with your new data.</li>
+<li>The response is stored in memory. Use <a href="../responses/httpResult">$httpResult</a> to see it.</li>
+</ol>
+
+<h3>Example 1: Updating a user</h3>
+<p>Replace an existing user's info with new data:</p>
+<pre><code>$httpPut[https://api.example.com/users/1;{"name":"Cenzo","role":"admin","age":25}]
+$httpResult</code></pre>
+<p>What happens:</p>
+<ol>
+<li><code>$httpPut</code> sends the new user data to the API.</li>
+<li>The API finds user 1 and replaces their old data with the new data.</li>
+<li><code>$httpResult</code> displays whatever the API returned (often the updated record).</li>
+</ol>
+
+<p>To extract specific parts of the response (like the updated user's name), see the <a href="../responses/httpResult">$httpResult</a> page.</p>
+<h3>Example 2: Updating settings</h3>
+<p>Replace a server's settings with a new config:</p>
+<pre><code>$httpPut[https://api.example.com/settings/1;{"theme":"dark","language":"en"}]
+$httpResult</code></pre>
+<p>What happens:</p>
+<ol>
+<li><code>$httpPut</code> sends the new settings to the API.</li>
+<li>The API replaces the old settings with the new ones.</li>
+<li><code>$httpResult</code> shows the response.</li>
+</ol>
+
+<h3>Common uses</h3>
+<ul>
+<li><strong>Updating user profiles</strong> with new information</li>
+<li><strong>Replacing configuration settings</strong> on a server</li>
+<li><strong>Overwriting existing records</strong> in a database</li>
+<li><strong>Syncing data</strong> between your bot and an external service</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="../responses/httpResult">$httpResult</a>: to read the API's response</li>
+<li><a href="../responses/httpStatus">$httpStatus</a>: to check if the update succeeded</li>
+<li><a href="../headers/httpAddHeader">$httpAddHeader</a>: to set content type or send an API key</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

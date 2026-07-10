@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>$getTextSplitIndex - BDFD Text Splitting Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>$getTextSplitIndex</h2>
+        <code>$getTextSplitIndex</code> searches the current text split for a
+        specific value and returns its index. If the value is not found, it
+        returns <code>-1</code>.
+        <h3>Syntax</h3>
+        <pre><code>$getTextSplitIndex[Value]</code></pre>
+        <ul>
+          <li>
+            <code>Value</code>: the string to search for in the split. Can be
+            empty.
+          </li>
+        </ul>
+
+        <h3>What happens</h3>
+        <ol>
+          <li>
+            <code>$textSplit</code> creates the split and stores the elements.
+          </li>
+          <li><code>$getTextSplitIndex</code> scans each element in order.</li>
+          <li>
+            If a match is found, it returns that element's index (starting from
+            <code>1</code>).
+          </li>
+          <li>If no match is found, it returns <code>-1</code>.</li>
+        </ol>
+
+        <h3>Example 1: Find a known value</h3>
+        <pre><code>$nomention
+$textSplit[hello_world_!;_]
+$getTextSplitIndex[world]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$textSplit</code> splits the string into
+            <code>hello</code> (1), <code>world</code> (2), <code>!</code> (3).
+          </li>
+          <li>
+            <code>$getTextSplitIndex[world]</code> finds <code>world</code> at
+            index <code>2</code> and returns it.
+          </li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>2</code></pre>
+        <h3>Example 2: Search for user input</h3>
+        <pre><code>$nomention
+$textSplit[hello_world_!;_]
+$getTextSplitIndex[$message]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$textSplit</code> splits the string into three elements.
+          </li>
+          <li>
+            <code>$getTextSplitIndex</code> searches for whatever the user
+            typed.
+          </li>
+        </ol>
+
+        <p>If the user runs <code>!example world</code>:</p>
+        <pre><code>2</code></pre>
+        <p>If the user runs <code>!example bdfd</code>:</p>
+        <pre><code>-1</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Checking if a value exists</strong> in a split before
+            reading or editing it
+          </li>
+          <li>
+            <strong>Finding a position</strong> to use with
+            <code>$editSplitText</code> or <code>$removeSplitTextElement</code>
+          </li>
+          <li>
+            <strong>Validating user input</strong> against a list of allowed
+            values
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./textSplit">$textSplit</a>: must be called first to
+            create the split
+          </li>
+          <li>
+            <a href="./splitText">$splitText</a>: to get an element by
+            index
+          </li>
+          <li>
+            <a href="../modifiers/editSplitText">$editSplitText</a>: to
+            replace an element by index
+          </li>
+          <li>
+            <a href="../modifiers/removeSplitTextElement"
+              >$removeSplitTextElement</a
+            >: to remove an element by index
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

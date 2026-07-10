@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>BDFD HTTP Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 group flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <a href="https://github.com/itszubariel/BDFD-HTTP-Guide" target="_blank" class="text-sm hidden sm:block hover:text-[#5865F2] transition-colors" style="color: var(--text-3)">GitHub</a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="relative overflow-hidden py-20">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16 fu">
+          <div class="hero-eyebrow">Bot Designer for Discord</div>
+          <h1
+            class="text-5xl sm:text-6xl font-black tracking-tight mb-4"
+            style="color: var(--text-1)"
+          >
+            HTTP Guide<span class="text-[#5865F2]">.</span>
+          </h1>
+          <p
+            class="text-lg max-w-2xl mx-auto mb-8"
+            style="color: var(--text-2)"
+          >
+            A beginner-friendly guide to the HTTP functions in BDFD
+          </p>
+        </div>
+
+        <!-- Categories -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
+          <div class="category-card">
+            <div class="icon-wrap">
+              <svg
+                class="w-5 h-5 text-[#5865F2]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                />
+              </svg>
+            </div>
+            <h3>Requests</h3>
+            <p>Making calls to APIs</p>
+          </div>
+
+          <div class="category-card">
+            <div class="icon-wrap">
+              <svg
+                class="w-5 h-5 text-[#5865F2]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                />
+              </svg>
+            </div>
+            <h3>Headers</h3>
+            <p>Metadata for requests & responses</p>
+          </div>
+
+          <div class="category-card">
+            <div class="icon-wrap">
+              <svg
+                class="w-5 h-5 text-[#5865F2]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.8"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+            <h3>Responses</h3>
+            <p>Handle what APIs return</p>
+          </div>
+        </div>
+
+        <!-- All Functions -->
+        <div>
+          <h2 class="text-2xl font-black mb-6 t1">All Functions</h2>
+
+          <!-- Requests -->
+          <div class="func-section">
+            <h3 class="func-section-title">Requests</h3>
+            <div class="func-grid">
+              <a href="requests/httpGet" class="func-card">
+                <code class="func-name">$httpGet</code>
+                <p class="func-desc">Requests data from an API</p>
+              </a>
+              <a href="requests/httpPost" class="func-card">
+                <code class="func-name">$httpPost</code>
+                <p class="func-desc">Sends data to an API</p>
+              </a>
+              <a href="requests/httpPut" class="func-card">
+                <code class="func-name">$httpPut</code>
+                <p class="func-desc">Updates an existing resource on an API</p>
+              </a>
+              <a href="requests/httpPatch" class="func-card">
+                <code class="func-name">$httpPatch</code>
+                <p class="func-desc">
+                  Partially updates an existing resource on an API
+                </p>
+              </a>
+              <a href="requests/httpDelete" class="func-card">
+                <code class="func-name">$httpDelete</code>
+                <p class="func-desc">Deletes a resource from an API</p>
+              </a>
+            </div>
+          </div>
+
+          <!-- Headers -->
+          <div class="func-section">
+            <h3 class="func-section-title">Headers</h3>
+            <div class="func-grid">
+              <a href="headers/httpAddHeader" class="func-card">
+                <code class="func-name">$httpAddHeader</code>
+                <p class="func-desc">
+                  Adds a custom header to your HTTP request
+                </p>
+              </a>
+              <a href="headers/httpRemoveHeader" class="func-card">
+                <code class="func-name">$httpRemoveHeader</code>
+                <p class="func-desc">Removes a header from your HTTP request</p>
+              </a>
+              <a href="headers/httpGetHeader" class="func-card">
+                <code class="func-name">$httpGetHeader</code>
+                <p class="func-desc">
+                  Gets a specific header from the response
+                </p>
+              </a>
+            </div>
+          </div>
+
+          <!-- Responses -->
+          <div class="func-section">
+            <h3 class="func-section-title">Responses</h3>
+            <div class="func-grid">
+              <a href="responses/httpResult" class="func-card">
+                <code class="func-name">$httpResult</code>
+                <p class="func-desc">
+                  Gets the data returned by your HTTP request
+                </p>
+              </a>
+              <a href="responses/httpStatus" class="func-card">
+                <code class="func-name">$httpStatus</code>
+                <p class="func-desc">
+                  Gets the HTTP status code of the response
+                </p>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Getting Started -->
+        <div class="about-section rounded-2xl p-8 mt-12">
+          <div class="about-eyebrow-wrap">
+            <span
+              class="text-xs font-mono text-[#5865F2] uppercase tracking-widest"
+              >Getting Started</span
+            >
+          </div>
+          <h2 class="text-xl font-black mb-4 t1">New to HTTP functions?</h2>
+          <p class="t2 mb-4">
+            If you're completely new, start with these two functions:
+          </p>
+          <ol class="list-decimal list-inside space-y-2 t2">
+            <li>
+              <a
+                href="requests/httpGet"
+                class="text-[#5865F2] hover:underline font-mono"
+                >$httpGet</a
+              >: the simplest function. It just makes the request
+            </li>
+            <li>
+              <a
+                href="responses/httpResult"
+                class="text-[#5865F2] hover:underline font-mono"
+                >$httpResult</a
+              >: used right after to return the data
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

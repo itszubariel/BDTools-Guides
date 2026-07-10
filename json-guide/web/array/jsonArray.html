@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>$jsonArray - BDFD JSON Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>$jsonArray</h2>
+        <code>$jsonArray</code> marks a key in the current JSON object as an
+        empty array. Use it when you want to start building an array at a key
+        that does not already hold one.
+        <h3>Syntax</h3>
+        <pre><code>$jsonArray[Key;...]</code></pre>
+        <ul>
+          <li>
+            <code>Key</code>: one or more keys forming the path to the key to
+            mark as an array.
+          </li>
+        </ul>
+
+        <h3>What happens</h3>
+        <ol>
+          <li><code>$jsonParse</code> loads the JSON object.</li>
+          <li>
+            <code>$jsonArray</code> converts the value at the given key into an
+            empty array <code>[]</code>.
+          </li>
+          <li>
+            You can then use <code>$jsonArrayAppend</code> or other array
+            functions to populate it.
+          </li>
+        </ol>
+
+        <h3>Example 1: Convert a key to an array</h3>
+        <pre><code>$nomention
+$disableInnerSpaceRemoval
+$jsonParse[{"games":""}]
+$jsonArray[games]
+$jsonPretty[2]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$jsonParse</code> loads an object where
+            <code>games</code> holds an empty string.
+          </li>
+          <li>
+            <code>$jsonArray[games]</code> converts <code>games</code> into an
+            empty array.
+          </li>
+          <li><code>$jsonPretty[2]</code> shows the result.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>{
+  "games": []
+}</code></pre>
+        <h3>Example 2: Create an array then append to it</h3>
+        <pre><code>$nomention
+$jsonParse[{}]
+$jsonArray[items]
+$jsonArrayAppend[items;sword]
+$jsonArrayAppend[items;shield]
+$jsonJoinArray[items;, ]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li><code>$jsonParse</code> creates an empty object.</li>
+          <li>
+            <code>$jsonArray[items]</code> creates <code>items</code> as an
+            empty array.
+          </li>
+          <li>Two <code>$jsonArrayAppend</code> calls add values to it.</li>
+          <li><code>$jsonJoinArray</code> displays the result.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>sword, shield</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Initialising an array key</strong>: create an empty array at
+            a key before appending to it
+          </li>
+          <li>
+            <strong>Resetting an array</strong>: convert a key back to an empty
+            array to clear its contents
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./jsonArrayAppend">$jsonArrayAppend</a>: to add values
+            to the array after creating it
+          </li>
+          <li>
+            <a href="./jsonArrayCount">$jsonArrayCount</a>: to count how
+            many elements are in the array
+          </li>
+          <li>
+            <a href="../core/jsonParse">$jsonParse</a>: must be called
+            first to load the JSON object
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

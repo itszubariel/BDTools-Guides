@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>setup - BDFD Text Splitting Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>Setting Up a TextSplit Variable</h2>
+        <p>
+          A TextSplit variable is a single BDFD variable that holds multiple
+          values at once. Instead of creating one variable per piece of data,
+          you pack all the values into one string separated by a character of
+          your choice, then use <code>$textSplit</code> to split them apart
+          whenever you need them.
+        </p>
+        <h3>Why use this</h3>
+        <p>
+          BDFD has a limit on how many variables a bot can have. By storing
+          multiple values inside one variable you can work around that limit and
+          keep related data together. A user's <code>money</code>,
+          <code>bank</code>, <code>bank limit</code>, <code>xp</code>,
+          <code>required xp</code>, and <code>level</code> can all live in a
+          single variable.
+        </p>
+        <h3>How it works</h3>
+        <p>
+          You choose a separator, something that will never appear naturally in
+          your values. A dot <code>.</code> is the most common choice. You then
+          set the variable's default value as a list of your slots, each
+          separated by that character.
+        </p>
+        <p>
+          For a six-slot economy variable the default value looks like this:
+        </p>
+        <pre><code>0.0.0.0.0.0</code></pre>
+        <p>Each <code>0</code> is one slot. The slots in order are:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Index</th>
+              <th>Slot</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>money</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>bank</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>bank limit</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>xp</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>required xp</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>level</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          You can name the slots anything and add as many as you need. Just add
+          another <code>.0</code> for each new slot.
+        </p>
+        <h3>Rules to follow</h3>
+        <strong>Use a separator that never appears in your values.</strong> If
+        your values are numbers, <code>.</code> works fine. If your values are
+        words or sentences, pick something like <code>;</code> or
+        <code>|</code>.
+        <strong
+          >Do not add the separator at the start or end of the value.</strong
+        >
+        <code>0.0.0</code> is correct. <code>.0.0.0.</code> is wrong and will
+        create empty slots at positions 1 and 4.
+        <strong>Watch the character limit.</strong> Global variables in BDFD
+        have a maximum of 499 characters. With a <code>.</code> separator and 6
+        slots, each slot can hold roughly 82 characters. With more slots or
+        longer values, plan accordingly.
+        <h3>Example 1: Create a six-slot variable</h3>
+        <p>
+          Go to the BDFD app, create a new variable named <code>ECONOMY</code>,
+          and set its default value to:
+        </p>
+        <pre><code>0.0.0.0.0.0</code></pre>
+        <p>
+          That creates six slots all starting at <code>0</code>. The indices are
+          fixed by position, so index <code>1</code> is always money, index
+          <code>2</code> is always bank, and so on. You decide what each index
+          means when you design the variable.
+        </p>
+        <h3>Example 2: Create a two-slot variable for a simpler use case</h3>
+        <p>
+          Not every variable needs six slots. If you only need to track
+          <code>coins</code> and <code>gems</code> for a user, create a variable
+          named <code>WALLET</code> with default value:
+        </p>
+        <pre><code>0.0</code></pre>
+        <p>
+          Index <code>1</code> is coins, index <code>2</code> is gems. You can
+          expand it later by adding more <code>.0</code> slots and updating the
+          default value.
+        </p>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Economy systems</strong>: pack money, bank, and bank limit
+            into one variable
+          </li>
+          <li>
+            <strong>Levelling systems</strong>: store xp, required xp, and level
+            together
+          </li>
+          <li>
+            <strong>Inventory tracking</strong>: store item counts in a single
+            variable per user
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./reading">Reading values</a>: how to split the
+            variable and read a slot
+          </li>
+          <li>
+            <a href="./writing">Writing values</a>: how to edit a slot and
+            save the variable back
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

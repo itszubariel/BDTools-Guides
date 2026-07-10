@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>reading - BDFD JSON Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>Reading a JSON Variable</h2>
+        <p>
+          Once your variable is set up, every command that needs its data starts
+          the same way: parse the variable, then read the fields you need.
+        </p>
+        <h3>The pattern</h3>
+        <pre><code>$jsonParse[$getVar[STATS;$authorID]]</code></pre>
+        <p>
+          This loads the user's variable from storage and parses it into a JSON
+          object in memory. After this line, <code>$json[cash]</code> gives you
+          the <code>cash</code> field, <code>$json[xp]</code> gives you
+          <code>xp</code>, and so on.
+        </p>
+        <p>
+          Always put this at the very top of any command that uses the variable.
+        </p>
+        <h3>Reading a single field</h3>
+        <pre><code>$jsonParse[$getVar[STATS;$authorID]]
+$json[cash]</code></pre>
+        <code>$json[cash]</code> returns the value stored at the
+        <code>cash</code> key.
+        <h3>Reading multiple fields</h3>
+        <pre><code>$jsonParse[$getVar[STATS;$authorID]]
+Cash: $json[cash]
+Level: $json[lvl]</code></pre>
+        <p>
+          You can call <code>$json</code> as many times as you need after one
+          <code>$jsonParse</code>. The object stays in memory for the duration
+          of the command.
+        </p>
+        <h3>Example 1: Display a user's balance</h3>
+        <pre><code>$nomention
+$jsonParse[$getVar[STATS;$mentioned[1;yes]]]
+Cash: $numberSeparator[$json[cash]]
+Level: $json[lvl]
+XP: $json[xp] / $json[lvlR]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$jsonParse</code> loads the mentioned user's
+            <code>STATS</code> variable.
+          </li>
+          <li>
+            <code>$json[cash]</code> reads their cash,
+            <code>$json[lvl]</code> reads their level, and so on.
+          </li>
+          <li>
+            <code>$numberSeparator</code> formats the cash with commas for
+            readability.
+          </li>
+        </ol>
+
+        <p>
+          Output for a user with 1500 cash at level 3 with 40 xp out of 200
+          required:
+        </p>
+        <pre><code>Cash: 1,500
+Level: 3
+XP: 40 / 200</code></pre>
+        <h3>Example 2: Read from a separate items variable</h3>
+        <pre><code>$nomention
+$jsonParse[$getVar[ITEMS;$authorID]]
+Apples: $json[apples]
+Oranges: $json[oranges]
+Pears: $json[pears]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$jsonParse</code> loads the <code>ITEMS</code> variable.
+          </li>
+          <li>Each <code>$json</code> call reads the count for that item.</li>
+        </ol>
+
+        <p>Output for a user with 3 apples, 1 orange, and 0 pears:</p>
+        <pre><code>Apples: 3
+Oranges: 1
+Pears: 0</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Balance commands</strong>: display cash and bank from one
+            variable
+          </li>
+          <li>
+            <strong>Profile commands</strong>: show level, xp, and other stats
+            together
+          </li>
+          <li>
+            <strong>Condition checks</strong>: read a field inside
+            <code>$if</code> before deciding what to do
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./setup">Setting up</a>: how to design and initialise
+            the variable
+          </li>
+          <li>
+            <a href="./writing">Writing values</a>: how to update fields
+            and save changes back
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

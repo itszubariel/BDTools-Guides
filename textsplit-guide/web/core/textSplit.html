@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <script>
+      (function () {
+        const isDark = localStorage.getItem("darkMode") !== "disabled";
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.classList.toggle("light", !isDark);
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>$textSplit - BDFD Text Splitting Guide | BDTools</title>
+    <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+      html.light footer {
+        background: #f4f5fa !important;
+        border-color: #e2e4ef !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="ldr">
+      <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+      <p id="ldrtxt">Loading</p>
+    </div>
+    <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4"
+      >
+        <a
+          href="https://bdtools.xyz"
+          class="flex items-center gap-2.5 flex-shrink-0"
+        >
+          <img
+            src="https://bdtools.xyz/images/bdtools_logo.png"
+            alt="BDTools"
+            class="w-7 h-7 rounded-lg"
+            onerror="this.style.display = 'none'"
+          />
+          <span class="font-bold tracking-tight t1">BDTools</span>
+        </a>
+        <div class="flex items-center gap-3 ml-auto">
+          <span
+            id="themeLabel"
+            class="text-xs hidden sm:block select-none"
+            style="color: var(--text-3)"
+            >Dark Mode</span
+          >
+          <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+            <div class="tog-thumb"></div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="doc-content">
+        <a
+          href="../"
+          class="back-link"
+          style="margin-bottom: 0.75rem"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Home
+        </a>
+        <h2>$textSplit</h2>
+        <code>$textSplit</code> splits a string by a given separator and stores
+        the resulting elements temporarily. It is always the first step, every
+        other text splitting function depends on this one having been called
+        first.
+        <h3>Syntax</h3>
+        <pre><code>$textSplit[Text;Separator]</code></pre>
+        <ul>
+          <li><code>Text</code>: the string to split.</li>
+          <li>
+            <code>Separator</code>: the character or string used to divide the
+            text. If left empty, the text is split into individual characters.
+          </li>
+        </ul>
+
+        <h3>What happens</h3>
+        <ol>
+          <li>
+            <code>$textSplit</code> takes the text you provide and breaks it
+            apart at every occurrence of the separator.
+          </li>
+          <li>
+            Each piece is stored as a numbered element, starting from index
+            <code>1</code>.
+          </li>
+          <li>
+            Nothing is returned visually, the split is held in memory. Use
+            <code>$splitText</code>, <code>$getTextSplitLength</code>, or any
+            other text split function to work with the result.
+          </li>
+        </ol>
+
+        <h3>Example 1: Split by a separator</h3>
+        <pre><code>$nomention
+$textSplit[hello-world-!;-]
+$splitText[2]</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            <code>$textSplit</code> splits <code>hello-world-!</code> using
+            <code>-</code> as the separator.
+          </li>
+          <li>
+            This creates three elements: <code>hello</code> (1),
+            <code>world</code> (2), <code>!</code> (3).
+          </li>
+          <li><code>$splitText[2]</code> returns the second element.</li>
+        </ol>
+
+        <p>Output:</p>
+        <pre><code>world</code></pre>
+        <h3>Example 2: Split by character (empty separator)</h3>
+        <pre><code>$nomention
+$textSplit[$message;]
+$getTextSplitLength</code></pre>
+        <p>What happens:</p>
+        <ol>
+          <li>
+            The empty separator causes <code>$textSplit</code> to split every
+            character individually.
+          </li>
+          <li>
+            <code>$getTextSplitLength</code> returns the total character count.
+          </li>
+        </ol>
+
+        <p>If the user runs <code>!example Hello</code>:</p>
+        <pre><code>5</code></pre>
+        <h3>Common uses</h3>
+        <ul>
+          <li>
+            <strong>Parsing command arguments</strong>: split
+            <code>$message</code> by spaces to read individual arguments
+          </li>
+          <li>
+            <strong>Processing lists</strong>: split comma-separated or
+            hyphen-separated data
+          </li>
+          <li>
+            <strong>Counting characters</strong>: use an empty separator to
+            treat each character as an element
+          </li>
+        </ul>
+
+        <h3>See also</h3>
+        <ul>
+          <li>
+            <a href="./splitText">$splitText</a>: to read a specific
+            element from the split
+          </li>
+          <li>
+            <a href="./getTextSplitLength">$getTextSplitLength</a>: to
+            count how many elements were created
+          </li>
+          <li>
+            <a href="../modifiers/joinSplitText">$joinSplitText</a>: to
+            reassemble the elements into a string
+          </li>
+        </ul>
+      </div>
+    </main>
+    <footer class="border-t border-[#1e2130] bg-[#080a10]">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <span class="text-sm text-gray-600"
+          >© 2026 BDTools. All rights reserved.</span
+        >
+        <div class="flex items-center gap-4 text-xs text-gray-600">
+          <a
+            href="https://bdtools.xyz/tos"
+            class="hover:text-gray-400 transition-colors"
+            >Terms of Service</a
+          >
+          <a
+            href="https://bdtools.xyz/privacy"
+            class="hover:text-gray-400 transition-colors"
+            >Privacy Policy</a
+          >
+          <a
+            href="https://bdtools.xyz/contact"
+            class="hover:text-gray-400 transition-colors"
+            >Contact</a
+          >
+        </div>
+      </div>
+    </footer>
+    <script src="../script.js"></script>
+  </body>
+</html>

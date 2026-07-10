@@ -1,21 +1,30 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false,
-  "routes": [
-    { "src": "/http", "dest": "/http/web/index.html" },
-    { "src": "/http/([^/]+\\.[^/]+)", "dest": "/http/web/$1" },
-    { "src": "/http/([^/]+)/([^/]+)", "dest": "/http/web/$1/$2" },
+  "redirects": [
+    { "source": "/http", "destination": "/http/", "permanent": false },
+    { "source": "/compv2", "destination": "/compv2/", "permanent": false },
+    { "source": "/textsplit", "destination": "/textsplit/", "permanent": false },
+    { "source": "/json", "destination": "/json/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/http/", "destination": "/http-guide/web/index.html" },
+    { "source": "/http/style.css", "destination": "/http-guide/web/style.css" },
+    { "source": "/http/script.js", "destination": "/http-guide/web/script.js" },
+    { "source": "/http/:category/:page", "destination": "/http-guide/web/:category/:page.html" },
 
-    { "src": "/compv2", "dest": "/compv2/web/index.html" },
-    { "src": "/compv2/([^/]+\\.[^/]+)", "dest": "/compv2/web/$1" },
-    { "src": "/compv2/([^/]+)/([^/]+)", "dest": "/compv2/web/$1/$2" },
+    { "source": "/compv2/", "destination": "/compv2-guide/web/index.html" },
+    { "source": "/compv2/style.css", "destination": "/compv2-guide/web/style.css" },
+    { "source": "/compv2/script.js", "destination": "/compv2-guide/web/script.js" },
+    { "source": "/compv2/images/:img", "destination": "/compv2-guide/web/images/:img" },
+    { "source": "/compv2/:category/:page", "destination": "/compv2-guide/web/:category/:page.html" },
 
-    { "src": "/textsplit", "dest": "/textsplit/web/index.html" },
-    { "src": "/textsplit/([^/]+\\.[^/]+)", "dest": "/textsplit/web/$1" },
-    { "src": "/textsplit/([^/]+)/([^/]+)", "dest": "/textsplit/web/$1/$2" },
+    { "source": "/textsplit/", "destination": "/textsplit-guide/web/index.html" },
+    { "source": "/textsplit/style.css", "destination": "/textsplit-guide/web/style.css" },
+    { "source": "/textsplit/script.js", "destination": "/textsplit-guide/web/script.js" },
+    { "source": "/textsplit/:category/:page", "destination": "/textsplit-guide/web/:category/:page.html" },
 
-    { "src": "/json", "dest": "/json/web/index.html" },
-    { "src": "/json/([^/]+\\.[^/]+)", "dest": "/json/web/$1" },
-    { "src": "/json/([^/]+)/([^/]+)", "dest": "/json/web/$1/$2" }
+    { "source": "/json/", "destination": "/json-guide/web/index.html" },
+    { "source": "/json/style.css", "destination": "/json-guide/web/style.css" },
+    { "source": "/json/script.js", "destination": "/json-guide/web/script.js" },
+    { "source": "/json/:category/:page", "destination": "/json-guide/web/:category/:page.html" }
   ]
 }
