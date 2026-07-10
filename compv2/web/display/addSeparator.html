@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>addSeparator - BDFD Components V2 Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../index.html" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$addSeparator</h2>
+<code>$addSeparator</code> adds a <strong>separator</strong> component to the message. Separators create visual breaks between other components. They go inside containers or standalone without a parent.
+<h3>Syntax</h3>
+<pre><code>$addSeparator[(Divider;Spacing;Container ID)]</code></pre>
+<p>All parameters are optional.</p>
+<ul>
+<li><code>Divider</code>: set to <code>true</code> to show a visible line, <code>false</code> for just spacing.</li>
+<li><code>Spacing</code>: the size of the spacing around the separator. Either <code>small</code> or <code>large</code>.</li>
+<li><code>Container ID</code>: optional ID of the container to put this separator inside. Leave empty to use the separator standalone (not inside any container).</li>
+</ul>
+
+<h3>What happens</h3>
+<ol>
+<li><code>$addSeparator</code> creates a separator.</li>
+<li>If you provide a container ID, it attaches to that container.</li>
+<li>The separator adds a visual break between the components above and below it.</li>
+</ol>
+
+<h3>Example 1: Small spacing without a divider</h3>
+<pre><code>$addContainer[main]
+$addTextDisplay[Top section;main]
+$addSeparator[false;small;main]
+$addTextDisplay[Bottom section;main]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addSeparator-1.png" alt="Separator small spacing" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addContainer</code> creates a container.</li>
+<li>The first text display appears at the top.</li>
+<li><code>$addSeparator</code> adds a divider line between them.</li>
+<li>The second text display appears below the divider.</li>
+</ol>
+
+<p>The separator creates a clear visual break between the two text displays.</p>
+<h3>Example 2: Large spacing with a divider</h3>
+<pre><code>$addTextDisplay[First block]
+$addSeparator[true;large]
+$addTextDisplay[Second block]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addSeparator-2.png" alt="Separator large spacing with divider" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li>The first text display appears on its own.</li>
+<li><code>$addSeparator</code> adds extra vertical space with no visible line, not attached to any container.</li>
+<li>The second text display appears below.</li>
+</ol>
+
+<p>The separator creates spacing without a dividing line.</p>
+<h3>Common uses</h3>
+<ul>
+<li><strong>Separating different sections</strong> of content in a container</li>
+<li><strong>Adding spacing</strong> between components for better readability</li>
+<li><strong>Grouping related content</strong> with dividers</li>
+<li><strong>Standalone separators</strong> when you need a break between uncontained components</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="../parents/addContainer.html">$addContainer</a>: to create a container for the separator</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

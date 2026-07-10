@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>addUserSelect - BDFD Components V2 Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../index.html" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$addUserSelect</h2>
+<code>$addUserSelect</code> adds a <strong>user select menu</strong> to an action row. User select menus let users pick one or more members from a list.
+<h3>Syntax</h3>
+<pre><code>$addUserSelect[Select Menu ID;Placeholder;Min Values;Max Values;Disabled;Action Row ID]</code></pre>
+<ul>
+<li><code>Select Menu ID</code>: ID used to identify this menu in your command trigger.</li>
+<li><code>Placeholder</code>: text shown when nothing is selected. Can be left empty.</li>
+<li><code>Min Values</code>: minimum number of users that must be selected. Defaults to 1.</li>
+<li><code>Max Values</code>: maximum number of users that can be selected. Defaults to 1.</li>
+<li><code>Disabled</code>: set to <code>true</code> to make the menu unclickable. Defaults to false.</li>
+<li><code>Action Row ID</code>: ID of the action row to attach this menu to.</li>
+</ul>
+
+<h3>What happens</h3>
+<ol>
+<li><code>$addUserSelect</code> creates a user select menu on the specified action row.</li>
+<li>When clicked, it opens a list of server members to choose from.</li>
+<li>The selected user IDs can be used in your command trigger.</li>
+</ol>
+
+<h3>Example 1: Simple user select</h3>
+<pre><code>$addActionRow[actions]
+$addUserSelect[pickUser;Choose a user;1;1;;actions]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addUserSelect-1.png" alt="User select example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addActionRow</code> creates an action row.</li>
+<li><code>$addUserSelect</code> adds a user select menu that lets users pick one member.</li>
+</ol>
+
+<p>The menu shows "Choose a user" as placeholder text.</p>
+<h3>Example 2: Multi-select with no placeholder</h3>
+<pre><code>$addActionRow[actions]
+$addUserSelect[pickUsers;;1;3;;actions]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addUserSelect-2.png" alt="User multi-select example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addActionRow</code> creates an action row.</li>
+<li><code>$addUserSelect</code> adds a user select menu that lets users pick up to three members.</li>
+</ol>
+
+<p>The menu has no placeholder text and allows multiple selections.</p>
+<h3>Common uses</h3>
+<ul>
+<li><strong>Selecting a member</strong> for moderation actions</li>
+<li><strong>Picking multiple users</strong> for role assignments or team building</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="../parents/addActionRow.html">$addActionRow</a>: to create the action row for the menu</li>
+<li><a href="addRoleSelect.html">$addRoleSelect</a>: for selecting roles instead of users</li>
+<li><a href="addMentionableSelect.html">$addMentionableSelect</a>: for selecting users and roles</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

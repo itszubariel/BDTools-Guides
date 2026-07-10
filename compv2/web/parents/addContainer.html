@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <script>
+    (function () {
+      const isDark = localStorage.getItem("darkMode") !== "disabled";
+      document.documentElement.classList.toggle("dark", isDark);
+      document.documentElement.classList.toggle("light", !isDark);
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>addContainer - BDFD Components V2 Guide | BDTools</title>
+  <link rel="icon" href="https://bdtools.xyz/images/bdtools_logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    html.light footer {
+      background: #f4f5fa !important;
+      border-color: #e2e4ef !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="ldr">
+    <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="" />
+    <p id="ldrtxt">Loading</p>
+  </div>
+  <nav class="sticky top-0 z-50 border-b" style="border-color: var(--border)">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <a href="https://bdtools.xyz" class="flex items-center gap-2.5 flex-shrink-0">
+        <img src="https://bdtools.xyz/images/bdtools_logo.png" alt="BDTools" class="w-7 h-7 rounded-lg" onerror="this.style.display='none'" />
+        <span class="font-bold tracking-tight t1">BDTools</span>
+      </a>
+      <div class="flex items-center gap-3 ml-auto">
+        <span id="themeLabel" class="text-xs hidden sm:block select-none" style="color: var(--text-3)">Dark Mode</span>
+        <div id="themeToggle" class="tog-track on" onclick="toggleTheme()">
+          <div class="tog-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="doc-content">
+      <a href="../index.html" class="back-link" style="margin-bottom: 0.75rem;">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Home
+      </a>
+<h2>$addContainer</h2>
+<code>$addContainer</code> creates a <strong>container</strong> component. A container is a top-level component that groups other components together. Containers can hold <code>$addSection</code>, <code>$addActionRow</code>, <code>$addMediaGallery</code>, <code>$addTextDisplay</code>, and <code>$addSeparator</code>.
+<h3>Syntax</h3>
+<pre><code>$addContainer[ID;(Color;Spoiler)]</code></pre>
+<ul>
+<li><code>ID</code>: a name to identify this container. Other components use this ID to attach themselves to it.</li>
+<li><code>Color</code>: optional color for the container (e.g. <code>ff0000</code> for red).</li>
+<li><code>Spoiler</code>: optional. Set to <code>true</code> to mark the container as a spoiler.</li>
+</ul>
+
+<h3>What happens</h3>
+<ol>
+<li><code>$addContainer</code> creates a container with the given ID.</li>
+<li>Other components that reference that ID are placed inside it.</li>
+<li>The container groups those components visually in the message.</li>
+</ol>
+
+<h3>Example 1: Basic container</h3>
+<p>Create a container and put a text display inside it:</p>
+<pre><code>$addContainer[main]
+$addTextDisplay[Welcome to the server!;main]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addContainer-1.png" alt="Basic container example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addContainer</code> creates a container named <code>main</code>.</li>
+<li><code>$addTextDisplay</code> attaches its text to that container.</li>
+<li>The message shows the text grouped inside the container.</li>
+</ol>
+
+<p>To add more components, reference the same container ID. See <a href="../display/addTextDisplay.html">$addTextDisplay</a> for details.</p>
+<h3>Example 2: Container with a color</h3>
+<p>Create a red container:</p>
+<pre><code>$addContainer[panel;ff0000]
+$addTextDisplay[This is a red container;panel]</code></pre>
+<strong>Result:</strong>
+<img src="../images/addContainer-2.png" alt="Red container example" class="example-img" />
+<p>What happens:</p>
+<ol>
+<li><code>$addContainer</code> creates a container with a red border/background.</li>
+<li><code>$addTextDisplay</code> adds text inside that container.</li>
+</ol>
+
+<p>The color applies to the whole container. Components inside it share the container's visual grouping.</p>
+<h3>Common uses</h3>
+<ul>
+<li><strong>Grouping related components</strong> together in a single visual block</li>
+<li><strong>Organizing complex messages</strong> with multiple sections and action rows</li>
+<li><strong>Adding color or spoiler markings</strong> to parts of a message</li>
+</ul>
+
+<h3>See also</h3>
+<ul>
+<li><a href="addSection.html">$addSection</a>: to create a section inside a container</li>
+<li><a href="addActionRow.html">$addActionRow</a>: to create an action row inside a container</li>
+<li><a href="../display/addTextDisplay.html">$addTextDisplay</a>: to add text to a container</li>
+<li><a href="../display/addSeparator.html">$addSeparator</a>: to add a visual divider inside a container</li>
+</ul>
+
+    </div>
+  </main>
+  <footer class="border-t border-[#1e2130] bg-[#080a10]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="text-sm text-gray-600">© 2026 BDTools. All rights reserved.</span>
+      <div class="flex items-center gap-4 text-xs text-gray-600">
+        <a href="https://bdtools.xyz/tos" class="hover:text-gray-400 transition-colors">Terms of Service</a>
+        <a href="https://bdtools.xyz/privacy" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        <a href="https://bdtools.xyz/contact" class="hover:text-gray-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>
