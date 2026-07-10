@@ -2,6 +2,8 @@
 
 A beginner-friendly guide to the **text splitting** functions in BDFD.
 
+> 🌐 **[View the web version](https://guides.bdtools.xyz/textsplit)**
+
 ---
 
 ## What this is about

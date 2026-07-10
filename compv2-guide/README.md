@@ -2,7 +2,7 @@
 
 A beginner-friendly guide to **Components V2** in BDFD.
 
-> 🌐 **[View the web version](https://cv2.guides.bdtools.xyz)**
+> 🌐 **[View the web version](https://guides.bdtools.xyz/compv2)**
 
 ---
 

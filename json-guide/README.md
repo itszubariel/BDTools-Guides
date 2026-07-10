@@ -2,6 +2,8 @@
 
 A beginner-friendly guide to the **JSON** functions in BDFD.
 
+> 🌐 **[View the web version](https://guides.bdtools.xyz/json)**
+
 ---
 
 ## What this is about

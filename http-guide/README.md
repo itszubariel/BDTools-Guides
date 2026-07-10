@@ -2,7 +2,9 @@
 
 A beginner-friendly guide to the **HTTP** functions in BDFD.
 
-> 🌐 **[View the web version](https://http.guides.bdtools.xyz)**
+> 🌐 **[View the web version](https://guides.bdtools.xyz/http)**
+
+---
 
 ## What this is about
 
