@@ -1,5 +1,6 @@
 {
   "redirects": [
+    { "source": "/", "destination": "https://bdtools.xyz/#guides", "permanent": false },
     { "source": "/http", "destination": "/http/", "permanent": false },
     { "source": "/compv2", "destination": "/compv2/", "permanent": false },
     { "source": "/textsplit", "destination": "/textsplit/", "permanent": false },
