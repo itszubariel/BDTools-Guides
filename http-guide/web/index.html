@@ -86,7 +86,7 @@
 
         <!-- Categories -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
-          <div class="category-card">
+          <a href="#requests" class="category-card">
             <div class="icon-wrap">
               <svg
                 class="w-5 h-5 text-[#5865F2]"
@@ -104,9 +104,9 @@
             </div>
             <h3>Requests</h3>
             <p>Making calls to APIs</p>
-          </div>
+          </a>
 
-          <div class="category-card">
+          <a href="#headers" class="category-card">
             <div class="icon-wrap">
               <svg
                 class="w-5 h-5 text-[#5865F2]"
@@ -124,9 +124,9 @@
             </div>
             <h3>Headers</h3>
             <p>Metadata for requests & responses</p>
-          </div>
+          </a>
 
-          <div class="category-card">
+          <a href="#responses" class="category-card">
             <div class="icon-wrap">
               <svg
                 class="w-5 h-5 text-[#5865F2]"
@@ -144,7 +144,7 @@
             </div>
             <h3>Responses</h3>
             <p>Handle what APIs return</p>
-          </div>
+          </a>
         </div>
 
         <!-- All Functions -->
@@ -152,7 +152,7 @@
           <h2 class="text-2xl font-black mb-6 t1">All Functions</h2>
 
           <!-- Requests -->
-          <div class="func-section">
+          <div class="func-section" id="requests">
             <h3 class="func-section-title">Requests</h3>
             <div class="func-grid">
               <a href="requests/httpGet" class="func-card">
@@ -181,7 +181,7 @@
           </div>
 
           <!-- Headers -->
-          <div class="func-section">
+          <div class="func-section" id="headers">
             <h3 class="func-section-title">Headers</h3>
             <div class="func-grid">
               <a href="headers/httpAddHeader" class="func-card">
@@ -204,7 +204,7 @@
           </div>
 
           <!-- Responses -->
-          <div class="func-section">
+          <div class="func-section" id="responses">
             <h3 class="func-section-title">Responses</h3>
             <div class="func-grid">
               <a href="responses/httpResult" class="func-card">
